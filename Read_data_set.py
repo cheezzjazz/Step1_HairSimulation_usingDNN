@@ -10,7 +10,7 @@ test_x_data = np.zeros(0, dtype = np.float32)
 test_y_data = np.zeros(0, dtype = np.float32)
 
 # readfile
-def makeData(dataset_path, x_data, y_data):
+def makeData(dataset_path, out_x_data, out_y_data):
     i = 0
     nframe = 1000
     while i < nframe:
@@ -31,21 +31,31 @@ def makeData(dataset_path, x_data, y_data):
 
         if i < nframe:
             #print('train x , frame %d'%i)
-            x_data = np.append(x_data, frame_array)
+            out_x_data = np.append(out_x_data, frame_array)
             if i > 1:
                 #print('train y, frame %d' % i)
-                y_data = np.append(y_data, frame_array)
+               out_y_data = np.append(out_y_data, frame_array)
         else:
             #print('train y, frame %d' % i)
-            y_data = np.append(y_data, frame_array)
+            out_y_data = np.append(out_y_data, frame_array)
 
-        x_data = np.reshape(x_data, (-1, 60))
-        y_data = np.reshape(y_data, (-1, 60))
-        #print('x')
-        #print(x_data)
-        #print('y')
-        #print(y_data)
+        out_x_data = np.reshape(out_x_data, (-1, 60))
+        out_y_data = np.reshape(out_y_data, (-1, 60))
+    
+    print('x')
+    print(out_x_data)
+    print(out_x_data.shape)
+    print('y')
+    print(out_y_data)
+    print(out_y_data.shape)
 
+
+print('Train')
+print(train_x_data)
+print(train_y_data)
+print('Test')
+print(test_x_data)
+print(test_y_data)
 makeData(dataset_train_path, train_x_data, train_y_data)
 print('Train')
 print(train_x_data)
@@ -54,4 +64,7 @@ makeData(dataset_test_path, test_x_data, test_y_data)
 print('Test')
 print(test_x_data)
 print(test_y_data)
+
+
+
 
