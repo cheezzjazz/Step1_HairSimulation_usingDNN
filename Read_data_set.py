@@ -42,29 +42,8 @@ def makeData(dataset_path, out_x_data, out_y_data):
         out_x_data = np.reshape(out_x_data, (-1, 60))
         out_y_data = np.reshape(out_y_data, (-1, 60))
     
-    print('x')
-    print(out_x_data)
-    print(out_x_data.shape)
-    print('y')
-    print(out_y_data)
-    print(out_y_data.shape)
+    return out_x_data, out_y_data
 
-
-print('Train')
-print(train_x_data)
-print(train_y_data)
-print('Test')
-print(test_x_data)
-print(test_y_data)
-makeData(dataset_train_path, train_x_data, train_y_data)
-print('Train')
-print(train_x_data)
-print(train_y_data)
-makeData(dataset_test_path, test_x_data, test_y_data)
-print('Test')
-print(test_x_data)
-print(test_y_data)
-
-
-
+train_x_data, train_y_data = makeData(dataset_train_path, train_x_data, train_y_data)
+test_x_data, test_y_data = makeData(dataset_test_path, test_x_data, test_y_data)
 
