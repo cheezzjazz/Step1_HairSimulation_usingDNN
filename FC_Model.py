@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
-from Read_data_set import *
-
+:from Read_data_set import *
+#from Read_Dataset import *
 ###
 # 신경망 모델 구성
 ###
@@ -10,7 +10,7 @@ from Read_data_set import *
 X = tf.placeholder(tf.float32, [None, 60])
 Y = tf.placeholder(tf.float32, [None, 60])
 
-W = tf.Variable(tf.random_uniform([60, 60], -1., 1.))
+W = tf.Variable(tf.random.uniform([60, 60], -1., 1.))
 print(W)
 b = tf.Variable(tf.zeros([60]))
 L = tf.add(tf.matmul(X, W), b)
@@ -36,7 +36,7 @@ for epoch in range(10):
 #    total_cost = 0
     #print(train_op)
     cost_val =sess.run(train_op, feed_dict={X:train_x_data, Y:train_y_data})
-    #print(cost_val)
+    print(cost_val)
 
 #print('Epoch :','%04d'% (epoch + 1), 'cost =', '{:.3f}'.format(cost_val))
 
@@ -46,4 +46,4 @@ for epoch in range(10):
 ###
 is_correct = tf.equal(tf.argmax(model, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
-print('정확도:', sess.run(accuracy, feed_dict = {X:train_x_data, Y:train_y_data}))#test_x_data, Y:test_y_data}))
+print('정확도:', sess.run(accuracy, feed_dict = {X:test_x_data, Y:test_y_data}))
