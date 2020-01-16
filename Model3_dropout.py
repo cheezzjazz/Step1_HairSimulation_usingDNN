@@ -1,6 +1,4 @@
-#import tensorflow as tf
 import tensorflow as tf
-#tf.disable_v2_behavior
 
 import numpy as np
 
@@ -59,8 +57,7 @@ sess = tf.Session()
 sess.run(init)
 
 batch_size = 100
-total_batch = int(999 / batch_size)
-#total_batch = int(mnist.train.num_examples / batch_size)
+total_batch = int(len(train_x_data) / batch_size)
 
 #for epoch in range(15): # dropout 사용 전
 for epoch in range(100):
@@ -68,7 +65,6 @@ for epoch in range(100):
 
     for i in range(total_batch):
         batch_xs, batch_ys = next_batch(batch_size, train_x_data, train_y_data)
-#        batch_xs, batch_ys = mnist.train.next_batch(batch_size)
 
 #        _, cost_val = sess.run([optimizer, cost], feed_dict={X: batch_xs, Y: batch_ys}) # dropout 사용 전
         _, cost_val = sess.run([optimizer, cost], feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.8})
@@ -80,11 +76,12 @@ for epoch in range(100):
 print('최적화 완료!')
 
 
+#saver = tf.train.Saver()
+#save_path = saver.save(sess, 'my_model')
 #############
 # 결과 확인 #
 #############
-
-is_correct = tf.equal(tf.argmax(model, 1), tf.argmax(Y, 1))
+is_correct = tf.equal(tf.argmax(model,1), tf.argmax(Y,1))
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 # print('정확도:', sess.run(accuracy, feed_dict={X: mnist.test.images, Y: mnist.test.labels})) # dropout 사용 전
 print('Training 정확도:', sess.run(accuracy, feed_dict={X: train_x_data, Y: train_y_data, keep_prob:1}))
