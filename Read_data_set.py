@@ -14,7 +14,7 @@ def makeData(dataset_path, out_x_data, out_y_data):
     min_value = -10;
     max_value = 10;
     i = 0
-    nframe = 11#1000
+    nframe = 1000
     while i < nframe:
         i += 1
         file_name = 'Frame' + str(i) + '.p'
