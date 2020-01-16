@@ -15,7 +15,7 @@ def makeData(dataset_path, out_x_data, out_y_data):
     max_value = 10
     i = 0
     line_index = 0
-    nframe = 5#1000
+    nframe = 1000
     while i < nframe:
         i += 1
         line_index = 0
