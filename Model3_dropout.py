@@ -3,6 +3,27 @@ import numpy as np
 
 from Read_data_set import *
 
+##
+#next batch
+##
+
+def next_batch(num, data, labels):
+    idx = np.arange(0, len(data))
+    np.random.shuffle(idx)
+    idx = idx[:num]
+    data_shuffle = [data[ i] for i in idx]
+    labels_shuffle = [labels[ i] for i in idx]
+    
+    return np.asarray(data_shuffle), np.asarray(labels_shuffle)
+#print('x-----------------------\n')
+#print(train_x_data)
+#print('y----------------------\n')
+#print(train_y_data)
+#batch_x, batch_y = next_batch(100, train_x_data, train_y_data)
+#print('batch x-----------------\n')
+#print(batch_x.shape)
+#print('batch y-----------------\n')
+#print(batch_y.shape)
 ####################
 # 신경망 모델 구성 #
 ####################
@@ -35,14 +56,16 @@ sess = tf.Session()
 sess.run(init)
 
 batch_size = 100
-total_batch = int(mnist.train.num_examples / batch_size)
+total_batch = int(999 / batch_size)
+#total_batch = int(mnist.train.num_examples / batch_size)
 
 #for epoch in range(15): # dropout 사용 전
 for epoch in range(30):
     total_cost = 0
 
     for i in range(total_batch):
-        batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+        batch_xs, batch_ys = next_batch(batch_size, train_x_data, train_y_data)
+#        batch_xs, batch_ys = mnist.train.next_batch(batch_size)
 
 #        _, cost_val = sess.run([optimizer, cost], feed_dict={X: batch_xs, Y: batch_ys}) # dropout 사용 전
         _, cost_val = sess.run([optimizer, cost], feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.8})
