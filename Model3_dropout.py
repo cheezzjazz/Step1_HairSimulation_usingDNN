@@ -31,11 +31,11 @@ def next_batch(num, data, labels):
 # 신경망 모델 구성 #
 ####################
 
-X = tf.placeholder(tf.float32, [None, 60])
-Y = tf.placeholder(tf.float32, [None, 60])
+X = tf.placeholder(tf.float32,[999, 57])# [None, 60])
+Y = tf.placeholder(tf.float32,[999, 57])# [None, 60])
 keep_prob = tf.placeholder(tf.float32)
 
-W1 = tf.Variable(tf.random_normal([60, 256], stddev=0.01))
+W1 = tf.Variable(tf.random_normal([57, 256], stddev = 0.01))#60, 256], stddev=0.01))
 L1 = tf.nn.relu(tf.matmul(X, W1))
 L1 = tf.nn.dropout(L1, keep_prob)
 
@@ -43,9 +43,9 @@ W2 = tf.Variable(tf.random_normal([256, 256], stddev=0.01))
 L2 = tf.nn.relu(tf.matmul(L1, W2))
 L2 = tf.nn.dropout(L2, keep_prob)
 
-W3 = tf.Variable(tf.random_normal([256, 60], stddev=0.01))
+W3 = tf.Variable(tf.random_normal([256,57], stddev = 0.01))# 60], stddev=0.01))
 model = tf.matmul(L2, W3)
-
+print(model)
 # cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=model, labels=Y))
 cost = tf.reduce_mean(tf.square(model - Y))
 optimizer = tf.train.AdamOptimizer(0.001).minimize(cost)
