@@ -11,8 +11,10 @@ test_y_data = np.zeros(0, dtype = np.float32)
 
 # readfile
 def makeData(dataset_path, out_x_data, out_y_data):
+    min_value = -10;
+    max_value = 10;
     i = 0
-    nframe = 1000
+    nframe = 11#1000
     while i < nframe:
         i += 1
         file_name = 'Frame' + str(i) + '.p'
@@ -24,6 +26,7 @@ def makeData(dataset_path, out_x_data, out_y_data):
             if not line: break
             else:################### line(node N xyz)
                 pos = np.fromstring(line, dtype = np.float32, sep= ' ')
+                pos = (pos - min_value) / (max_value - min_value)
                 frame_array = np.append(frame_array, pos)
         f.close()
         #print('frame %d'%i)
@@ -46,4 +49,5 @@ def makeData(dataset_path, out_x_data, out_y_data):
 
 train_x_data, train_y_data = makeData(dataset_train_path, train_x_data, train_y_data)
 test_x_data, test_y_data = makeData(dataset_test_path, test_x_data, test_y_data)
-
+print(train_x_data)
+print(train_y_data)
