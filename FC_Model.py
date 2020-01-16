@@ -1,26 +1,31 @@
 import tensorflow as tf
 import numpy as np
 
-:from Read_data_set import *
+from Read_data_set import *
 #from Read_Dataset import *
 ###
 # 신경망 모델 구성
 ###
 
-X = tf.placeholder(tf.float32, [None, 60])
-Y = tf.placeholder(tf.float32, [None, 60])
+X = tf.compat.v1.placeholder(tf.float32, [None, 60])
+Y = tf.compat.v1.placeholder(tf.float32, [None, 60])
 
-W = tf.Variable(tf.random.uniform([60, 60], -1., 1.))
-print(W)
-b = tf.Variable(tf.zeros([60]))
-L = tf.add(tf.matmul(X, W), b)
-print(L)
-L = tf.nn.relu(L)
-model = tf.nn.softmax(L)
-print(model)
+W1 = tf.Variable(tf.random.uniform([60, 32], -1., 1.))
+W2 = tf.Variable(tf.random.uniform([32, 60], -1., 1.))
+b1 = tf.Variable(tf.zeros([32]))
+b2 = tf.Variable(tf.zeros([60]))
+
+L1 = tf.add(tf.matmul(X, W1), b1)
+L1 = tf.nn.relu(L1)
+
+L2 = tf.add(tf.matmul(L1, W2), b2)
+L2 = tf.nn.relu(L2)
+
+model = tf.nn.softmax(L2)
+
 cost = tf.reduce_mean(tf.square(model - Y))
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.5)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.1)
 train_op = optimizer.minimize(cost)
 
 ###
@@ -32,12 +37,9 @@ sess.run(init)
 
 #batch_size = 9
 #total_batch = int(HairData.train.num_examples / batch_size)
-for epoch in range(10):
-#    total_cost = 0
-    #print(train_op)
-    cost_val =sess.run(train_op, feed_dict={X:train_x_data, Y:train_y_data})
-    print(cost_val)
-
+for step in range(15):
+    _, cost_val = sess.run([train_op, cost], feed_dict={X:train_x_data, Y:train_y_data})
+    print(step + 1, '-cost = ', cost_val)
 #print('Epoch :','%04d'% (epoch + 1), 'cost =', '{:.3f}'.format(cost_val))
 
 
