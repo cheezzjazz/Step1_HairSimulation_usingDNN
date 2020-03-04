@@ -46,8 +46,10 @@ with tf.name_scope('Optimizer'):
 # 신경망 모델 학습 #
 ####################
 
+
 init = tf.global_variables_initializer()
 sess = tf.Session()
+#sess = tf.InteractiveSession()
 sess.run(init)
 
 #merged = tf.summary.merge_all()
@@ -68,9 +70,9 @@ for epoch in range(100):
         total_cost += cost_val 
 
 #        summary = sess.run(merged, feed_dict={X:batch_xs, Y:batch_ys})
-#        write.add_summary(summary, global_step = sess.run(global_step))
+#            write.add_summary(summary, global_step = sess.run(global_step))
     print('Epoch:', '%04d' % (epoch + 1),
-          'Avg. cost =', '{:.3f}'.format(total_cost / total_batch))
+    'Avg. cost =', '{:.3f}'.format(total_cost / total_batch))
     
 print('최적화 완료!')
 
@@ -85,5 +87,5 @@ accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 # print('정확도:', sess.run(accuracy, feed_dict={X: mnist.test.images, Y: mnist.test.labels})) # dropout 사용 전
 # print('Training 정확도:', sess.run(accuracy, feed_dict={X: train_x_data, Y: train_y_data, keep_prob:1}))
 print('Test 정확도:', sess.run(accuracy, feed_dict={X: test_x_data, Y: test_y_data, keep_prob: 1}))
-
-
+#print(model.eval(feed_dict={X: test_x_data, Y: test_y_data}))
+sess.close()
