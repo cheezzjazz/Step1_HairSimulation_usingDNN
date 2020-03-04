@@ -82,12 +82,22 @@ with tf.Session() as sess:
     array = model.eval(feed_dict={X: test_x_data, Y: test_y_data, keep_prob: 1})
     #print(array.shape)
     sparray = np.vsplit(array, 999)
-    f = open("./dataset/position_Result/result.p", 'w')
-    array = np.array(sparray)
-    print(' '.join(map(str, array)))
-    np.list(array)
-    print(array)
-    array_iter = iter(array)
-    #f.write('\n'.join(sparray))
+    dataset_path = "./dataset/position_Result/"
+    print(sparray) # array list
+    for number, array in enumerate(sparray):
+        file_name = 'Frame'+str(number+1)+'.p'
+        f = open(dataset_path+file_name, 'w')
+        array = array.astype(np.string_)
+        #print(array)
+        string = ""
+        for i, val in np.ndenumerate(array):
+            string += val.decode('UTF-8')+" "
+            #print("{}번째\n".format(i[1]))
+            if (i[1]+1)%3 == 0:
+                #print("{}번째,{}".format((i[1]+1)/3, string))
+                f.write("{}\n".format(string))
+                string = ""
+        f.close()
+    
     #f.write(data)
-    f.close()
+    #f.close()
